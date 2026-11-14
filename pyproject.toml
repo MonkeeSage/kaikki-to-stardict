@@ -1,0 +1,35 @@
+[project]
+name = "kaikki-to-stardict"
+version = "0.1.0"
+description = "Convert kaikki.org Wiktionary (wiktextract) data to rich-text StarDict dictionaries"
+readme = "README.md"
+authors = [{ name = "MonkeeSage", email = "monkeesage@gmail.com" }]
+requires-python = ">=3.11"
+dependencies = ["orjson>=3.10"]
+
+[project.scripts]
+kaikki2stardict = "kaikki_to_stardict.cli:main"
+
+[dependency-groups]
+dev = ["pytest>=8", "ruff>=0.6"]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP", "SIM"]
+# Files are deliberately held open across calls (Writer, extract output).
+ignore = ["SIM115"]
+
+[tool.ruff.lint.flake8-bugbear]
+extend-immutable-calls = [
+    "kaikki_to_stardict.render.Options",
+    "kaikki_to_stardict.build.BuildOptions",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
